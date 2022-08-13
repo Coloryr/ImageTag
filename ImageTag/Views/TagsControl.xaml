@@ -35,7 +35,11 @@
             Margin="2"
             DockPanel.Dock="Bottom"
             TextChanged="Input_TextChanged" />
-        <ScrollViewer Margin="2" DockPanel.Dock="Top">
+        <ScrollViewer
+            Margin="2"
+            DockPanel.Dock="Top"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
             <StackPanel x:Name="List1" Margin="0,0,2,0" />
         </ScrollViewer>
     </DockPanel>

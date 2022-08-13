@@ -1,4 +1,5 @@
 ﻿using ImageTag.Sql;
+using ImageTag.Train;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,7 @@ public partial class InitWindow : Window
 
         Task.Run(() =>
         {
+            MLClassification.ReturnImage();
             TagSql.Start();
             ImageSql.Start();
             AutoTag.Init();

@@ -171,4 +171,10 @@ GROUP BY
             new { now.uuid, tag_group = item.group, tag_uuid = item.uuid });
         }
     }
+
+    internal static void RemoveImageTag(string uuid)
+    {
+        using var sql = new SqliteConnection(connStr);
+        sql.Execute("DELETE FROM imagetags WHERE uuid=@uuid", new { uuid });
+    }
 }

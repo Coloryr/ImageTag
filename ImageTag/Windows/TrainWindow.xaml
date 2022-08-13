@@ -8,6 +8,7 @@
     Title="机器学习日志"
     Width="800"
     Height="450"
+    Loaded="Window_Loaded"
     mc:Ignorable="d">
     <Grid>
         <Rectangle

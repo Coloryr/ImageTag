@@ -29,6 +29,11 @@ public partial class TagGroupControl : UserControl, IHighlight
         Reload = reload;
     }
 
+    public void ClearHighlight()
+    {
+        
+    }
+
     public void Highlight(TagObj obj)
     {
         

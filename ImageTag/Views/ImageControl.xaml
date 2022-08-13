@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Loaded="UserControl_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="16*" />
@@ -51,8 +51,10 @@
             <Grid Grid.Row="1">
                 <Rectangle Stroke="#FF5ABED6" StrokeThickness="2" />
                 <ScrollViewer
+                    x:Name="TagGroupsScrollViewer"
                     Margin="2"
-                    HorizontalScrollBarVisibility="Visible"
+                    HorizontalScrollBarVisibility="Auto"
+                    SizeChanged="TagGroupsScrollViewer_SizeChanged"
                     VerticalScrollBarVisibility="Hidden">
                     <StackPanel
                         x:Name="TagGroups"

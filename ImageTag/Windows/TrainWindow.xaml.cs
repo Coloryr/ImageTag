@@ -1,4 +1,5 @@
-﻿using Microsoft.ML;
+﻿using ImageTag.Train;
+using Microsoft.ML;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,36 +24,56 @@ namespace ImageTag.Windows;
 public partial class TrainWindow : Window
 {
     private CancellationTokenSource tokenSource = new CancellationTokenSource();
-    public TrainWindow()
+    private TagGroupObj GroupObj;
+    public TrainWindow(TagGroupObj group)
     {
         InitializeComponent();
-    }
-
-    public void Set(string group, Action<object> action)
-    {
-        Task.Run(() =>
-        {
-            var tk = tokenSource.Token;
-            action(tk);
-            if (tk.IsCancellationRequested)
-                return;
-            AutoTag.LoadModel(group);
-        }, tokenSource.Token);
+        GroupObj = group;
         ShowDialog();
     }
 
-    public void WriteLine(string data) 
+    public void WriteLine(string data)
     {
-        Log.AppendText(data + Environment.NewLine);
+        Dispatcher.Invoke(() =>
+        {
+            Log.AppendText(data + Environment.NewLine);
+        });
     }
 
     public void FilterMLContextLog(object? sender, LoggingEventArgs e)
     {
-        Log.AppendText(e.Message + Environment.NewLine);
+        Dispatcher.Invoke(() =>
+        {
+            Log.AppendText(e.Message + Environment.NewLine);
+        });
     }
 
     private void Button_Click(object sender, RoutedEventArgs e)
     {
         tokenSource.Cancel();
+    }
+
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        Task.Run(() =>
+        {
+            WriteLine("正在初始化");
+            if (!MLClassification.InitTrain(GroupObj.uuid))
+            {
+                return;
+            }
+
+            WriteLine("开始生成模型");
+            var tk = tokenSource.Token;
+            MLClassification.StartTrain(AutoTag.mlContext, AutoTag.ML + "temp/", AutoTag.ML + GroupObj.uuid + ".zip", tk, this);
+            if (tk.IsCancellationRequested)
+                return;
+            AutoTag.LoadModel(GroupObj.uuid);
+
+            WriteLine("清理缓存");
+            MLClassification.ReturnImage();
+            WriteLine("完成");
+        }, tokenSource.Token);
+
     }
 }

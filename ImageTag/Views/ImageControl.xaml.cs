@@ -116,7 +116,7 @@ public partial class ImageControl : UserControl
                 return;
             ImageTags.Remove(obj.TagObj);
             SelectTags.Children.Remove(obj);
-            foreach (TagsControl item in TagGroups.Children)
+            foreach (IHighlight item in TagGroups.Children)
             {
                 item.ClearHighlight();
             }
@@ -131,5 +131,15 @@ public partial class ImageControl : UserControl
             Need.Remove(Now);
         }
         NextImage();
+    }
+
+    private void TagGroupsScrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        TagGroups.Height = TagGroupsScrollViewer.ViewportHeight;
+    }
+
+    private void UserControl_Loaded(object sender, RoutedEventArgs e)
+    {
+        TagGroups.Height = TagGroupsScrollViewer.ViewportHeight;
     }
 }

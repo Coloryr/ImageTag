@@ -18,8 +18,8 @@
             <Rectangle Stroke="#FF5ABED6" StrokeThickness="2" />
             <ScrollViewer
                 Margin="2"
-                HorizontalScrollBarVisibility="Visible"
-                VerticalScrollBarVisibility="Hidden">
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Auto">
                 <StackPanel
                     x:Name="TagGroups"
                     Margin="0,0,0,2"
@@ -62,7 +62,11 @@
                         </ListView.View>
                         <ListView.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Click="MenuItem_Click" Header="文件位置" />
+                                <MenuItem Click="MenuItem_Click1" Header="复制文件位置" />
+                                <MenuItem Click="MenuItem_Click2" Header="复制文件" />
+                                <MenuItem Click="MenuItem_Click3" Header="复制图片" />
+                                <MenuItem Click="MenuItem_Click4" Header="打开文件" />
+                                <MenuItem Click="MenuItem_Click5" Header="清除标签" />
                             </ContextMenu>
                         </ListView.ContextMenu>
                     </ListView>

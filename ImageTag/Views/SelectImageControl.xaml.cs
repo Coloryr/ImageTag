@@ -1,6 +1,8 @@
 ﻿using ImageTag.Sql;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
@@ -31,12 +33,58 @@ public partial class SelectImageControl : UserControl
         InitializeComponent();
     }
 
-    private void MenuItem_Click(object sender, RoutedEventArgs e)
+    private void MenuItem_Click1(object sender, RoutedEventArgs e)
     {
         var item = ImageList.SelectedItem as ImageObj;
         if (item == null)
             return;
 
+        string local = $"{ImageSql.Local}{item.local}".Replace("\\", "/");
+        Clipboard.SetText(local);
+    }
+    private void MenuItem_Click2(object sender, RoutedEventArgs e)
+    {
+        var item = ImageList.SelectedItem as ImageObj;
+        if (item == null)
+            return;
+
+        string local = $"{ImageSql.Local}{item.local}".Replace("\\", "/");
+        var file = new StringCollection();
+        file.Add(local);
+        Clipboard.SetFileDropList(file);
+    }
+    private void MenuItem_Click3(object sender, RoutedEventArgs e)
+    {
+        var item = ImageList.SelectedItem as ImageObj;
+        if (item == null)
+            return;
+
+        string local = $"{ImageSql.Local}{item.local}".Replace("\\", "/");
+        BitmapImage bmp = new(new Uri(local));
+        Clipboard.SetImage(bmp);
+    }
+    private void MenuItem_Click4(object sender, RoutedEventArgs e)
+    {
+        var item = ImageList.SelectedItem as ImageObj;
+        if (item == null)
+            return;
+
+        string local = $"{ImageSql.Local}{item.local}".Replace("\\", "/");
+        Process process = new();
+        process.StartInfo.FileName = local;  
+        process.StartInfo.Arguments = "rundl132.exe C://WINDOWS//system32//shimgvw.dll,ImageView_Fullscreen"; 
+        process.StartInfo.UseShellExecute = true;  
+        process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+        process.Start(); 
+    }
+    private void MenuItem_Click5(object sender, RoutedEventArgs e)
+    {
+        var item = ImageList.SelectedItem as ImageObj;
+        if (item == null)
+            return;
+
+        ImageSql.RemoveImageTag(item.uuid);
+        Update();
     }
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)

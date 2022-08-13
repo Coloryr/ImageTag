@@ -112,6 +112,9 @@ public partial class TagsControl : UserControl, IHighlight
     private void Edit(TagControl obj) 
     {
         var obj1 = new TagEditWindow(GroupObj, obj.TagObj).Set();
+
+        if (obj1 == null)
+            return;
         TagSql.EditTag(obj1);
         Refeash();
     }
@@ -124,7 +127,7 @@ public partial class TagsControl : UserControl, IHighlight
 
         if (TagSql.HaveTag(obj.group, obj.name))
         {
-            new InfoWindow("新建标签失败", "已存在同名标签");
+            _ = new InfoWindow("新建标签失败", "已存在同名标签");
             return;
         }
 
@@ -165,14 +168,7 @@ public partial class TagsControl : UserControl, IHighlight
 
     private void Button_Click_2(object sender, RoutedEventArgs e)
     {
-        new InfoWindow("提示", "标签内容不足10张图片的不会进行参与机器学习");
-
-        if (!MLClassification.InitTrain(GroupObj.uuid))
-        {
-            new InfoWindow("错误", "样本数量不足，无法进行机器学习");
-            return;
-        }
-
-        MLClassification.StartTrain(AutoTag.mlContext, GroupObj.uuid, AutoTag.ML + "temp/", AutoTag.ML + GroupObj.uuid + ".zip");
+        _ = new InfoWindow("提示", "标签内容不足10张图片的不会进行参与机器学习");
+        _ = new TrainWindow(GroupObj);
     }
 }

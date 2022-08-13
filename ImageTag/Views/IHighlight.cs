@@ -9,4 +9,6 @@ namespace ImageTag.Views;
 interface IHighlight
 {
     void Highlight(TagObj obj);
+
+    void ClearHighlight();
 }
