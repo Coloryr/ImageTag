@@ -147,7 +147,7 @@ internal static class TagSql
 
     public static void RemoveGroup(string uuid)
     {
-        if (!HaveGroup(uuid))
+        if (!HaveGroupU(uuid))
             return;
 
         using var sql = new SqliteConnection(connStr);

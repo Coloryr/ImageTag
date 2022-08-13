@@ -22,14 +22,20 @@ namespace ImageTag.Views;
 /// </summary>
 public partial class ImageControl : UserControl
 {
-    private readonly List<TagGroupObj> Groups;
+    private List<TagGroupObj> Groups;
     private Dictionary<ImageObj, List<ImageTagObj>> Need;
     private ImageObj? Now;
     private List<TagObj> ImageTags;
     public ImageControl()
     {
         InitializeComponent();
+        Reload();
+        NextImage();
+    }
 
+    public void Reload() 
+    {
+        TagGroups.Children.Clear();
         Groups = TagSql.GetAllGroup();
 
         foreach (var item in Groups)
@@ -38,7 +44,8 @@ public partial class ImageControl : UserControl
             TagGroups.Children.Add(view);
         }
 
-        NextImage();
+        var con = new TagGroupControl(Reload);
+        TagGroups.Children.Add(con);
     }
 
     private void NextImage() 

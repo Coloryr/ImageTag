@@ -81,6 +81,11 @@ public partial class SelectImageControl : UserControl
     {
         ImageShow.Source = null;
         ImageList.Items.Clear();
+        NowTags.Children.Clear();
+
+        if (!ImageTags.Any())
+            return;
+
         Images = ImageSql.GetAllTags();
         var temp = new Dictionary<ImageObj, List<ImageTagObj>>(Images);
         foreach (var item in ImageTags)

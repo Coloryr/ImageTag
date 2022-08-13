@@ -13,4 +13,17 @@
     <PackageReference Include="System.Drawing.Common" Version="6.0.2-mauipre.1.22102.15" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Windows\TagGroupRemoveWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Windows\TagGroupRemoveWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>
