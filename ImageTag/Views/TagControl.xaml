@@ -13,13 +13,29 @@
             RadiusY="4"
             Stroke="#FF5ABED6"
             StrokeThickness="2" />
-        <StackPanel Margin="4" Orientation="Horizontal">
-            <Label Name="Name" Content="123" />
+        <DockPanel Margin="4">
+            <TextBlock
+                Name="TagName"
+                MaxWidth="100"
+                Margin="2,0,2,0"
+                DockPanel.Dock="Left"
+                Text="123"
+                TextWrapping="Wrap" />
             <Button
                 x:Name="Close"
                 Width="20"
+                HorizontalAlignment="Right"
                 Click="Close_Click"
-                Content="×" />
-        </StackPanel>
+                Content="×"
+                DockPanel.Dock="Right" />
+            <Button
+                x:Name="Edit"
+                Width="20"
+                Margin="0,0,2,0"
+                HorizontalAlignment="Right"
+                Click="Edit_Click"
+                Content="E"
+                DockPanel.Dock="Right" />
+        </DockPanel>
     </Grid>
 </UserControl>

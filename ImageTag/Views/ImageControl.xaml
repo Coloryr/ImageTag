@@ -13,14 +13,53 @@
             <ColumnDefinition Width="16*" />
             <ColumnDefinition Width="9*" />
         </Grid.ColumnDefinitions>
-        <Image x:Name="ImageShow" Grid.Column="1" />
+        <Grid Grid.Column="1" Margin="2,0,0,0">
+            <Rectangle Stroke="#FF5ABED6" StrokeThickness="2" />
+            <DockPanel LastChildFill="True">
+                <Label
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Content="图片查看"
+                    DockPanel.Dock="Top" />
+                <Label
+                    x:Name="Info"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Content="还有xx张图片需要分类"
+                    DockPanel.Dock="Top" />
+                <Image x:Name="ImageShow" Margin="2" />
+            </DockPanel>
+            <Button
+                x:Name="Next"
+                Width="50"
+                Height="20"
+                Margin="0,10,10,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Click="Next_Click"
+                Content="完成" />
+        </Grid>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="13*" />
                 <RowDefinition Height="32*" />
             </Grid.RowDefinitions>
-            <WrapPanel Name="Tags" Grid.Row="0" />
-            <StackPanel x:Name="SelectTags" />
+            <Grid Grid.Row="0" Margin="0,0,0,2">
+                <Rectangle Stroke="#FF5ABED6" StrokeThickness="2" />
+                <WrapPanel Name="SelectTags" Margin="4" />
+            </Grid>
+            <Grid Grid.Row="1">
+                <Rectangle Stroke="#FF5ABED6" StrokeThickness="2" />
+                <ScrollViewer
+                    Margin="2"
+                    HorizontalScrollBarVisibility="Visible"
+                    VerticalScrollBarVisibility="Hidden">
+                    <StackPanel
+                        x:Name="TagGroups"
+                        Margin="0,0,0,2"
+                        Orientation="Horizontal" />
+                </ScrollViewer>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

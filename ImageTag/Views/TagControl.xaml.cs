@@ -20,24 +20,36 @@ namespace ImageTag.Views;
 /// </summary>
 public partial class TagControl : UserControl
 {
-    private Action<TagObj> OnClose;
-    private TagObj Tag;
-    public TagControl(TagObj tag, Action<TagObj> close, bool need)
+    private readonly Action<TagControl>? OnClose;
+    private readonly Action<TagControl>? OnEdit;
+    public TagObj TagObj { get; private set; }
+    public TagControl(TagObj tag, bool need, Action<TagControl>? close = null, bool edit = false, string text="×", Action<TagControl>? onedit = null)
     {
         InitializeComponent();
 
         OnClose = close;
-        Tag = tag;
-        Name.Content = tag.name;
+        TagObj = tag;
+        TagName.Text = tag.name;
+        Close.Content = text;
+        OnEdit = onedit;
 
         if (!need)
         {
             Close.Visibility = Visibility.Collapsed;
         }
+        if (!edit)
+        {
+            Edit.Visibility = Visibility.Collapsed;
+        }
     }
 
     private void Close_Click(object sender, RoutedEventArgs e)
     {
-        OnClose(Tag);
+        OnClose?.Invoke(this);
+    }
+
+    private void Edit_Click(object sender, RoutedEventArgs e)
+    {
+        OnEdit?.Invoke(this);
     }
 }

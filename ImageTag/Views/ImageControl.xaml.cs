@@ -1,5 +1,7 @@
-﻿using System;
+﻿using ImageTag.Sql;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,16 +15,106 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ImageTag.Views
+namespace ImageTag.Views;
+
+/// <summary>
+/// ImageControl.xaml 的交互逻辑
+/// </summary>
+public partial class ImageControl : UserControl
 {
-    /// <summary>
-    /// ImageControl.xaml 的交互逻辑
-    /// </summary>
-    public partial class ImageControl : UserControl
+    private readonly List<TagGroupObj> Groups;
+    private Dictionary<ImageObj, List<ImageTagObj>> Need;
+    private ImageObj? Now;
+    private List<TagObj> ImageTags;
+    public ImageControl()
     {
-        public ImageControl()
+        InitializeComponent();
+
+        Groups = TagSql.GetAllGroup();
+
+        foreach (var item in Groups)
         {
-            InitializeComponent();
+            var view = new TagsControl(item, AddTag, true);
+            TagGroups.Children.Add(view);
         }
+
+        NextImage();
+    }
+
+    private void NextImage() 
+    {
+        if (Need == null)
+        {
+            Need = (from item in ImageSql.ImageTags
+                    where item.Value.Count == 0
+                    select item).ToDictionary(a => a.Key, a => a.Value);
+        }
+        else if (Need.Count == 0)
+        {
+            ImageSql.Refresh();
+            Need = (from item in ImageSql.ImageTags
+                    where item.Value.Count == 0
+                    select item).ToDictionary(a => a.Key, a => a.Value);
+        }
+        Info.Content = $"还有{Need.Count}张图片需要分类";
+        SelectTags.Children.Clear();
+        if (Need.Count != 0)
+        {
+            Now = Need.First().Key;
+            string local = $"{ImageSql.Local}{Now.local}";
+            BitmapImage bmp = new(new Uri(local));
+            ImageShow.Source = bmp;
+            ImageTags = AutoTag.CheckTag(local);
+            foreach (var item in ImageTags)
+            {
+                SelectTags.Children.Add(new TagControl(item, true, RemoveTag));
+            }
+        }
+        else
+        {
+            Now = null;
+            ImageShow.Source = null;
+            ImageTags = new();
+        }
+    }
+
+    private void AddTag(TagControl obj) 
+    {
+        if (Now != null)
+        {
+            if (ImageTags.Contains(obj.TagObj))
+                return;
+            ImageTags.Add(obj.TagObj);
+            SelectTags.Children.Add(new TagControl(obj.TagObj, true, RemoveTag));
+            foreach (TagsControl item in TagGroups.Children)
+            {
+                item.Highlight(obj.TagObj);
+            }
+        }
+    }
+
+    private void RemoveTag(TagControl obj) 
+    {
+        if (Now != null)
+        {
+            if (!ImageTags.Contains(obj.TagObj))
+                return;
+            ImageTags.Remove(obj.TagObj);
+            SelectTags.Children.Remove(obj);
+            foreach (TagsControl item in TagGroups.Children)
+            {
+                item.ClearHighlight();
+            }
+        }
+    }
+
+    private void Next_Click(object sender, RoutedEventArgs e)
+    {
+        if (Now != null)
+        {
+            ImageSql.SetImageTag(Now, ImageTags);
+            Need.Remove(Now);
+        }
+        NextImage();
     }
 }

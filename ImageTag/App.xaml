@@ -4,10 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:ImageTag"
     Startup="Application_Startup"
-    StartupUri="MainWindow.xaml">
+    StartupUri="InitWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Style/Expander.xaml" />
                 <ResourceDictionary Source="/Style/Button.xaml" />
                 <ResourceDictionary Source="/Style/CheckBox.xaml" />
                 <ResourceDictionary Source="/Style/ComboBox.xaml" />

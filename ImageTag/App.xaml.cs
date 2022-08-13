@@ -33,8 +33,6 @@ public partial class App : Application
         DispatcherUnhandledException += new DispatcherUnhandledExceptionEventHandler(App_DispatcherUnhandledException);
         TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
         AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-
-        TagSql.Start();
     }
 
     private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

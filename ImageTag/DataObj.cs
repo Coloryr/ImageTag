@@ -20,3 +20,16 @@ public record TagObj
     public string bind_group { get; set; }
     public string bind_uuid { get; set; }
 }
+
+public record ImageObj
+{ 
+    public string local { get; set; }
+    public string uuid { get; set; }
+}
+
+public record ImageTagObj
+{ 
+    public string uuid { get; set; }
+    public string tag_group { get; set; }
+    public string tag_uuid { get; set; }
+}
