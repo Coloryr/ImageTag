@@ -36,16 +36,14 @@ public partial class TrainWindow : Window
     {
         Dispatcher.Invoke(() =>
         {
-            Log.AppendText(data + Environment.NewLine);
+            Log.AppendText($"[{DateTime.Now}]{data}{Environment.NewLine}");
+            Log.ScrollToEnd();
         });
     }
 
     public void FilterMLContextLog(object? sender, LoggingEventArgs e)
     {
-        Dispatcher.Invoke(() =>
-        {
-            Log.AppendText(e.Message + Environment.NewLine);
-        });
+        WriteLine(e.Message);
     }
 
     private void Button_Click(object sender, RoutedEventArgs e)
@@ -72,8 +70,7 @@ public partial class TrainWindow : Window
 
             WriteLine("清理缓存");
             MLClassification.ReturnImage();
-            WriteLine("完成");
+            WriteLine("完成，请关闭窗口继续");
         }, tokenSource.Token);
-
     }
 }
