@@ -20,13 +20,18 @@ namespace ImageTag.Views;
 /// <summary>
 /// TagGroupControl.xaml 的交互逻辑
 /// </summary>
-public partial class TagGroupControl : UserControl
+public partial class TagGroupControl : UserControl, IHighlight
 {
     private readonly Action Reload;
     public TagGroupControl(Action reload)
     {
         InitializeComponent();
         Reload = reload;
+    }
+
+    public void Highlight(TagObj obj)
+    {
+        
     }
 
     private void Button_Click(object sender, RoutedEventArgs e)

@@ -55,6 +55,23 @@ internal static class ImageSql
         return res;
     }
 
+    public static List<ImageObj> GetImageFromTag(string group, string uuid) 
+    {
+        using var sql = new SqliteConnection(connStr);
+        var list = sql.Query<ImageObj>(@"SELECT
+	image.local 
+FROM
+	imagetags
+	INNER JOIN image ON imagetags.uuid = image.uuid 
+WHERE
+	imagetags.tag_uuid = @tag_uuid 
+	AND imagetags.tag_group = @tag_group 
+GROUP BY
+	local", new { tag_uuid = uuid, tag_group = group });
+
+        return list.ToList();
+    }
+
     public static List<ImageObj> GetAllImage() 
     {
         using var sql = new SqliteConnection(connStr);

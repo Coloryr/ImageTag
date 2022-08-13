@@ -91,11 +91,19 @@ public partial class ImageControl : UserControl
         {
             if (ImageTags.Contains(obj.TagObj))
                 return;
+
             ImageTags.Add(obj.TagObj);
             SelectTags.Children.Add(new TagControl(obj.TagObj, true, RemoveTag));
-            foreach (TagsControl item in TagGroups.Children)
+            foreach (IHighlight item in TagGroups.Children)
             {
                 item.Highlight(obj.TagObj);
+            }
+
+            var tag = TagSql.GetTag(obj.TagObj.bind_group, obj.TagObj.bind_uuid);
+            if (tag != null && !ImageTags.Contains(tag))
+            {
+                ImageTags.Add(tag);
+                SelectTags.Children.Add(new TagControl(tag, true, RemoveTag));
             }
         }
     }

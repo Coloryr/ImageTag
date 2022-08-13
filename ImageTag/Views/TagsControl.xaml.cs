@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using ImageTag.Sql;
+using ImageTag.Train;
 using ImageTag.Windows;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace ImageTag.Views;
 /// <summary>
 /// TagsControl.xaml 的交互逻辑
 /// </summary>
-public partial class TagsControl : UserControl
+public partial class TagsControl : UserControl, IHighlight
 {
     private TagGroupObj GroupObj;
     private List<TagObj> Tags;
@@ -160,5 +161,18 @@ public partial class TagsControl : UserControl
         {
             List1.Children.Add(item);
         }
+    }
+
+    private void Button_Click_2(object sender, RoutedEventArgs e)
+    {
+        new InfoWindow("提示", "标签内容不足10张图片的不会进行参与机器学习");
+
+        if (!MLClassification.InitTrain(GroupObj.uuid))
+        {
+            new InfoWindow("错误", "样本数量不足，无法进行机器学习");
+            return;
+        }
+
+        MLClassification.StartTrain(AutoTag.mlContext, GroupObj.uuid, AutoTag.ML + "temp/", AutoTag.ML + GroupObj.uuid + ".zip");
     }
 }

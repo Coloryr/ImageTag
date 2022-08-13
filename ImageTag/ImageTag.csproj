@@ -1,29 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.8" />
+    <PackageReference Include="Microsoft.ML" Version="2.0.0-preview.22313.1" />
+    <PackageReference Include="Microsoft.ML.ImageAnalytics" Version="2.0.0-preview.22313.1" />
+    <PackageReference Include="Microsoft.ML.Vision" Version="2.0.0-preview.22313.1" />
+    <PackageReference Include="SciSharp.TensorFlow.Redist" Version="2.3.1" />
+    <PackageReference Include="SciSharp.TensorFlow.Redist-Windows-GPU" Version="2.3.1" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.2-mauipre.1.22102.15" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Update="Windows\TagGroupRemoveWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
     <Page Update="Windows\TagGroupRemoveWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-
 </Project>

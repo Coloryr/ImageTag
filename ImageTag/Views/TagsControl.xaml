@@ -16,7 +16,7 @@
         <UniformGrid
             Name="EditS"
             DockPanel.Dock="Bottom"
-            Rows="2">
+            Rows="3">
             <Button
                 Margin="2"
                 Click="Button_Click"
@@ -25,6 +25,10 @@
                 Margin="2"
                 Click="Button_Click_1"
                 Content="删除" />
+            <Button
+                Margin="2"
+                Click="Button_Click_2"
+                Content="机器学习" />
         </UniformGrid>
         <TextBox
             Name="Input"
