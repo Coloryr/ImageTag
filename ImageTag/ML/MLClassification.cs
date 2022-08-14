@@ -44,7 +44,11 @@ public static class MLClassification
                 {
                     try
                     {
-                        File.Move(local, dir1 + item1.local);
+                        File.Copy(local, dir1 + item1.local);
+                        break;
+                    }
+                    catch (FileNotFoundException)
+                    {
                         break;
                     }
                     catch
@@ -55,7 +59,7 @@ public static class MLClassification
                             _ = new InfoWindow("机器学习错误", "文件复制失败");
                             return false;
                         }
-                        Thread.Sleep(1000);
+                        Thread.Sleep(50);
                     }
                 }
             }
@@ -79,7 +83,7 @@ public static class MLClassification
             {
                 foreach (var item1 in item.GetFiles())
                 {
-                    File.Move(item1.FullName, ImageSql.Local + item1.Name);
+                    File.Delete(item1.FullName);
                 }
                 item.Delete();
             }
@@ -258,7 +262,9 @@ public class FileUtils
     {
         var imagesPath = Directory
             .GetFiles(folder, "*", searchOption: SearchOption.AllDirectories)
-            .Where(x => Path.GetExtension(x) == ".jpg" || Path.GetExtension(x) == ".png");
+            .Where(x => Path.GetExtension(x) == ".jpg" || 
+            Path.GetExtension(x) == ".png" ||
+            Path.GetExtension(x) == ".jpeg");
 
         return useFolderNameasLabel
             ? imagesPath.Select(imagePath => (imagePath, Directory.GetParent(imagePath).Name))

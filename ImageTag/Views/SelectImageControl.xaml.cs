@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace ImageTag.Views;
 public partial class SelectImageControl : UserControl
 {
     private List<TagGroupObj> Groups;
-    private List<TagObj> ImageTags;
+    private readonly List<TagObj> ImageTags = new();
     private Dictionary<ImageObj, List<ImageTagObj>> Images;
     public SelectImageControl()
     {
@@ -49,8 +50,10 @@ public partial class SelectImageControl : UserControl
             return;
 
         string local = $"{ImageSql.Local}{item.local}".Replace("\\", "/");
-        var file = new StringCollection();
-        file.Add(local);
+        var file = new StringCollection
+        {
+            local
+        };
         Clipboard.SetFileDropList(file);
     }
     private void MenuItem_Click3(object sender, RoutedEventArgs e)
@@ -89,7 +92,8 @@ public partial class SelectImageControl : UserControl
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
-        ImageTags = new();
+        ImageTags.Clear();
+        SelectTags.Children.Clear();
         TagGroups.Children.Clear();
         Groups = TagSql.GetAllGroup();
 
@@ -162,9 +166,7 @@ public partial class SelectImageControl : UserControl
             return;
 
         string local = $"{ImageSql.Local}{item.local}";
-        BitmapImage bmp = new(new Uri(local));
-        ImageShow.Source = bmp;
-
+        ImageShow.Source = ImageTagUtils.GetBitmapImage(local);
         NowTags.Children.Clear();
         List<ImageTagObj> list = Images[item];
         foreach (var item1 in list)
@@ -175,4 +177,6 @@ public partial class SelectImageControl : UserControl
             NowTags.Children.Add(new TagControl(tag, false));
         }
     }
+
+    
 }

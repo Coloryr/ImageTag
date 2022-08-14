@@ -39,6 +39,30 @@
                 VerticalAlignment="Top"
                 Click="Next_Click"
                 Content="下一张" />
+            <Button
+                x:Name="PicLocal"
+                Width="80"
+                Height="20"
+                Margin="10,10,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="PicLocal_Click"
+                Content="图片位置" />
+            <Button
+                Width="80"
+                Height="20"
+                Margin="10,35,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="Button_Click"
+                Content="删除图片" />
+            <Button
+                Width="60"
+                Height="20"
+                Margin="0,35,10,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Content="跳过" Click="Button_Click_1" />
         </Grid>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>

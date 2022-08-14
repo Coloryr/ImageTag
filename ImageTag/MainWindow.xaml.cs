@@ -41,7 +41,7 @@ public partial class MainWindow : Window
         Tabs.SelectedIndex = 2;
     }
 
-    public const string IMAGEFILTER = "图片文件(*.jpg;*.png)|*.jpg;*.png";
+    public const string IMAGEFILTER = "图片文件(*.jpg;*.png;*.jpeg)|*.jpg;*.png;*.jpeg)";
 
     public void SelectFile()
     {

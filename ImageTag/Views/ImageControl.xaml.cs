@@ -1,10 +1,15 @@
 ﻿using ImageTag.Sql;
+using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -70,8 +75,7 @@ public partial class ImageControl : UserControl
             ImageTags = new();
             Now = Need.First().Key;
             string local = $"{ImageSql.Local}{Now.local}";
-            BitmapImage bmp = new(new Uri(local));
-            ImageShow.Source = bmp;
+            ImageShow.Source = ImageTagUtils.GetBitmapImage(local);
             var tag = AutoTag.PicDir(local);
             if (tag != null && !ImageTags.Contains(tag))
             {
@@ -166,5 +170,38 @@ public partial class ImageControl : UserControl
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
         TagGroups.Height = TagGroupsScrollViewer.ViewportHeight;
+    }
+
+    private void PicLocal_Click(object sender, RoutedEventArgs e)
+    {
+        if (Now != null)
+        {
+            string local = $"{ImageSql.Local}{Now.local}".Replace("/", "\\");
+            ProcessStartInfo psi = new("Explorer.exe")
+            {
+                Arguments = "/e,/select," + local
+            };
+            Process.Start(psi);
+        }
+    }
+
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+        if (Now != null)
+        {
+            string local = $"{ImageSql.Local}{Now.local}".Replace("/", "\\");
+            FileSystem.DeleteFile(System.IO.Path.GetFullPath(local), UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+            Need.Remove(Now);
+            NextImage();
+        }
+    }
+
+    private void Button_Click_1(object sender, RoutedEventArgs e)
+    {
+        if (Now != null)
+        {
+            Need.Remove(Now);
+            NextImage();
+        }
     }
 }
