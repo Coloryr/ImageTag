@@ -20,6 +20,8 @@
                 <ResourceDictionary Source="/Style/Slider.xaml" />
                 <ResourceDictionary Source="/Style/TabControl.xaml" />
                 <ResourceDictionary Source="/Style/TextBox.xaml" />
+                <ResourceDictionary Source="/Style/ProgressBar.xaml" />
+                <ResourceDictionary Source="/Style/DataGridStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

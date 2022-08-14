@@ -9,6 +9,7 @@ using System.IO;
 using Microsoft.ML;
 using Microsoft.ML.Data;
 using ImageTag.Train;
+using ImageTag.Windows;
 
 namespace ImageTag;
 
@@ -21,8 +22,10 @@ internal static class AutoTag
 
     public static readonly string ML = App.Local + "ML/";
 
-    public static MLContext mlContext { get; private set; }
-    private static Dictionary<string, ITransformer> models = new();
+    public static MLResWindow? MLWindow;
+
+    public static MLContext MlContext { get; private set; }
+    private static Dictionary<string, ITransformer> Models = new();
     
     public static void Init() 
     {
@@ -38,15 +41,15 @@ internal static class AutoTag
 
         Directory.CreateDirectory(ML);
 
-        mlContext = new MLContext(seed: 1);
+        MlContext = new MLContext(seed: 1);
         // Load the model
         foreach (var item in TagSql.GetAllGroup())
         {
             string name = ML + item.uuid + ".zip";
             if (File.Exists(name))
             {
-                var model = mlContext.Model.Load(name, out _);
-                models.Add(item.uuid, model);
+                var model = MlContext.Model.Load(name, out _);
+                Models.Add(item.uuid, model);
             }
         }
     }
@@ -56,8 +59,12 @@ internal static class AutoTag
         string name = ML + group + ".zip";
         if (File.Exists(name))
         {
-            var model = mlContext.Model.Load(name, out _);
-            models.Add(group, model);
+            var model = MlContext.Model.Load(name, out _);
+            if(Models.ContainsKey(group))
+            {
+                Models.Remove(group);    
+            }
+            Models.Add(group, model);
         }
     }
 
@@ -86,27 +93,16 @@ internal static class AutoTag
         }
     }
 
-    public static TagObj? PicML(string file, string group = "") 
+    public static void PicML(string file, TagGroupObj group, Action<TagObj> call) 
     {
-        if (models.TryGetValue(group, out var model))
+        if (Models.TryGetValue(group.uuid, out var model))
         {
-            var res = MLClassification.TrySinglePrediction(file, mlContext, model);
+            MLWindow ??= new MLResWindow();
+            MLWindow.File = file;
+            MLWindow.Group = group;
+            MLWindow.Model = model;
+            MLWindow.Call = call;
+            MLWindow.Start();
         }
-
-        return null;
     }
-
-    public static List<TagObj> CheckTag(string file) 
-    {
-        var list = new List<TagObj>();
-        var tag = PicDir(file);
-        if (tag != null)
-            list.Add(tag);
-
-        tag = PicML(file);
-
-        return list;
-    }
-
-   
 }

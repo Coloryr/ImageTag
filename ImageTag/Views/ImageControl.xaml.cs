@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +31,6 @@ public partial class ImageControl : UserControl
     {
         InitializeComponent();
         Reload();
-        NextImage();
     }
 
     public void Reload() 
@@ -67,14 +67,20 @@ public partial class ImageControl : UserControl
         SelectTags.Children.Clear();
         if (Need.Count != 0)
         {
+            ImageTags = new();
             Now = Need.First().Key;
             string local = $"{ImageSql.Local}{Now.local}";
             BitmapImage bmp = new(new Uri(local));
             ImageShow.Source = bmp;
-            ImageTags = AutoTag.CheckTag(local);
-            foreach (var item in ImageTags)
+            var tag = AutoTag.PicDir(local);
+            if (tag != null && !ImageTags.Contains(tag))
             {
-                SelectTags.Children.Add(new TagControl(item, true, RemoveTag));
+                ImageTags.Add(tag);
+                SelectTags.Children.Add(new TagControl(tag, true, RemoveTag));
+            }
+            foreach (var group in Groups)
+            {
+                AutoTag.PicML(local, group, AddTag);
             }
         }
         else
@@ -82,6 +88,25 @@ public partial class ImageControl : UserControl
             Now = null;
             ImageShow.Source = null;
             ImageTags = new();
+        }
+    }
+
+    private void AddTag(TagObj obj)
+    {
+        if (Now != null)
+        {
+            if (ImageTags.Contains(obj))
+                return;
+
+            ImageTags.Add(obj);
+            SelectTags.Children.Add(new TagControl(obj, true, RemoveTag));
+
+            var tag = TagSql.GetTag(obj.bind_group, obj.bind_uuid);
+            if (tag != null && !ImageTags.Contains(tag))
+            {
+                ImageTags.Add(tag);
+                SelectTags.Children.Add(new TagControl(tag, true, RemoveTag));
+            }
         }
     }
 

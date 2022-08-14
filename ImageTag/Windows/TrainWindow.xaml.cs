@@ -63,7 +63,7 @@ public partial class TrainWindow : Window
 
             WriteLine("开始生成模型");
             var tk = tokenSource.Token;
-            MLClassification.StartTrain(AutoTag.mlContext, AutoTag.ML + "temp/", AutoTag.ML + GroupObj.uuid + ".zip", tk, this);
+            MLClassification.StartTrain(AutoTag.MlContext, AutoTag.ML + "temp/", AutoTag.ML + GroupObj.uuid + ".zip", tk, this);
             if (tk.IsCancellationRequested)
                 return;
             AutoTag.LoadModel(GroupObj.uuid);

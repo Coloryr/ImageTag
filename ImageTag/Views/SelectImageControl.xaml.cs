@@ -174,6 +174,5 @@ public partial class SelectImageControl : UserControl
                 continue;
             NowTags.Children.Add(new TagControl(tag, false));
         }
-        
     }
 }

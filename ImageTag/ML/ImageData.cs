@@ -35,20 +35,16 @@ public class InMemoryImageData
 {
     public InMemoryImageData(byte[] image)
     {
-        ImageSource = image;
+        Image = image;
     }
 
-    public readonly byte[] ImageSource;
-    public readonly string Label;
+    public byte[] Image;
+    public string Label;
+    public string ImageFileName;
 }
 
 public class ImagePrediction
 {
-    [ColumnName(@"Label")]
-    public uint Label { get; set; }
-
-    [ColumnName(@"ImageSource")]
-    public byte[] ImageSource { get; set; }
 
     [ColumnName(@"PredictedLabel")]
     public string PredictedLabel { get; set; }
