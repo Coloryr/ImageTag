@@ -10,6 +10,7 @@ using Microsoft.ML;
 using Microsoft.ML.Data;
 using ImageTag.ML;
 using ImageTag.Windows;
+using System.Collections.ObjectModel;
 
 namespace ImageTag;
 
@@ -22,8 +23,7 @@ internal static class AutoTag
 
     public static readonly string ML = App.Local + "ML/";
 
-    public static MLResWindow? MLWindow;
-
+    public static readonly Dictionary<string, MLWindow> MLWindow = new();
     public static MLContext MlContext { get; private set; }
     private static Dictionary<string, ITransformer> Models = new();
     
@@ -97,12 +97,21 @@ internal static class AutoTag
     {
         if (Models.TryGetValue(group.uuid, out var model))
         {
-            MLWindow ??= new MLResWindow();
-            MLWindow.File = file;
-            MLWindow.Group = group;
-            MLWindow.Model = model;
-            MLWindow.Call = call;
-            MLWindow.Start();
-        }
+            MLWindow window;
+            if (MLWindow.ContainsKey(group.uuid))
+            {
+                window = MLWindow[group.uuid];
+            }
+            else 
+            {
+                window = new MLWindow();
+                MLWindow.Add(group.uuid, window);
+                window.Group = group;
+                window.Call = call;
+            }
+            window.File = file;
+            window.Model = model;
+            window.Start();
+        } 
     }
 }

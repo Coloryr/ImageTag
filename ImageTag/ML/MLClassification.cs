@@ -114,7 +114,7 @@ public static class MLClassification
             return;
 
         // 4. Split the data 80:20 into train and test sets, train and evaluate.
-        var trainTestData = mlContext.Data.TrainTestSplit(shuffledFullImagesDataset, testFraction: 0.2);
+        var trainTestData = mlContext.Data.TrainTestSplit(shuffledFullImagesDataset, testFraction: 0.7);
         IDataView trainDataView = trainTestData.TrainSet;
         IDataView testDataView = trainTestData.TestSet;
 

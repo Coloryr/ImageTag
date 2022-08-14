@@ -21,16 +21,16 @@ using Tensorflow.Keras.Engine;
 namespace ImageTag.Windows;
 
 /// <summary>
-/// MLResWindow.xaml 的交互逻辑
+/// MLWindow.xaml 的交互逻辑
 /// </summary>
-public partial class MLResWindow : Window
+public partial class MLWindow : Window
 {
     public string File { get; set; }
     public TagGroupObj Group { get; set; }
     public Action<TagObj> Call { get; set; }
     public ITransformer Model { get; set; }
     private bool Going;
-    public MLResWindow()
+    public MLWindow()
     {
         InitializeComponent();
         Show();
@@ -38,6 +38,7 @@ public partial class MLResWindow : Window
 
     public void Start() 
     {
+        ResList.Items.Clear();
         GroupName.Content = $"标签组：{Group.name}，正在预测中";
         Task.Run(() =>
         {
@@ -89,11 +90,20 @@ public partial class MLResWindow : Window
         {
             e.Cancel = true;
         }
+        else
+        {
+            AutoTag.MLWindow.Remove(Group.uuid);
+        }
     }
 
     private void Window_Closed(object sender, EventArgs e)
     {
-        AutoTag.MLWindow = null;
+        AutoTag.MLWindow.Remove(Group.uuid);
+    }
+
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+        Start();
     }
 
     private void Close_Click(object sender, RoutedEventArgs e)
