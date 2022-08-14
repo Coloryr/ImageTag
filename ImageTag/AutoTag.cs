@@ -78,7 +78,7 @@ internal static class AutoTag
             return null;
 
         Image image = Image.FromFile(file);
-        double num = image.Width / image.Height;
+        double num = (double)image.Width / (double)image.Height;
         image.Dispose();
         if (num > 1.1)
         {
