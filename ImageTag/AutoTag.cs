@@ -65,6 +65,10 @@ internal static class AutoTag
                 Models.Remove(group);    
             }
             Models.Add(group, model);
+            if (MLWindow.ContainsKey(group))
+            {
+                MLWindow[group].Model = model;
+            }
         }
     }
 

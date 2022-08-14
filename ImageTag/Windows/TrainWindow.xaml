@@ -5,30 +5,136 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:ImageTag.Windows"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="机器学习日志"
+    Title="机器学习"
     Width="800"
     Height="450"
-    Loaded="Window_Loaded"
     mc:Ignorable="d">
     <Grid>
         <Rectangle
             Fill="#FFF4F4F5"
             Stroke="#FF5ABED6"
             StrokeThickness="2" />
+        <Label
+            Margin="10,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="模型选项" />
+
+        <Button
+            Name="Cancel"
+            Width="60"
+            Height="24"
+            Margin="0,39,10,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Click="Button_Click"
+            Content="取消"
+            IsEnabled="False" />
         <TextBox
             x:Name="Log"
-            Margin="4"
+            Margin="4,68,4,4"
             IsReadOnly="True"
             ScrollViewer.HorizontalScrollBarVisibility="Auto"
             ScrollViewer.VerticalScrollBarVisibility="Visible"
             TextWrapping="Wrap" />
         <Button
+            Name="Start"
             Width="60"
             Height="24"
-            Margin="0,10,30,0"
+            Margin="0,10,10,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            Click="Button_Click"
-            Content="取消" />
+            Click="Button_Click_1"
+            Content="开始" />
+        <Label
+            Margin="10,35,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Epochs" />
+        <TextBox
+            Name="TEpoch"
+            Width="90"
+            Height="20"
+            Margin="61,38,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Text="{Binding Epoch, Mode=TwoWay}" />
+        <Label
+            Margin="156,35,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Batch Size" />
+        <TextBox
+            Name="TBatchSize"
+            Width="90"
+            Height="20"
+            Margin="224,38,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Text="{Binding BatchSize, Mode=TwoWay}" />
+        <Label
+            Margin="319,35,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Learning Rate" />
+        <TextBox
+            Name="TLearningRate"
+            Width="90"
+            Height="20"
+            Margin="408,38,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Text="{Binding LearningRate, Mode=TwoWay}" />
+        <RadioButton
+            Name="Select1"
+            Height="20"
+            Margin="68,13,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Checked="Select_Checked"
+            Content="无"
+            GroupName="Select1"
+            Style="{StaticResource RadioButton_Left}" />
+        <RadioButton
+            Name="Select2"
+            Height="20"
+            Margin="88,13,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Checked="Select_Checked"
+            Content="InceptionV3"
+            GroupName="Select1"
+            Style="{StaticResource RadioButton_Middle}" />
+        <RadioButton
+            Name="Select3"
+            Height="20"
+            Margin="160,13,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Checked="Select_Checked"
+            Content="MobilenetV2"
+            GroupName="Select1"
+            IsChecked="True"
+            Style="{StaticResource RadioButton_Middle}" />
+        <RadioButton
+            Name="Select4"
+            Height="20"
+            Margin="237,13,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Checked="Select_Checked"
+            Content="ResnetV250"
+            GroupName="Select1"
+            Style="{StaticResource RadioButton_Middle}" />
+        <RadioButton
+            Name="Select5"
+            Height="20"
+            Margin="309,13,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Checked="Select_Checked"
+            Content="ResnetV2101"
+            GroupName="Select1"
+            Style="{StaticResource RadioButton_Right}" />
     </Grid>
 </Window>
