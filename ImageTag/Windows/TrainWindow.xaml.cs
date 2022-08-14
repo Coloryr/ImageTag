@@ -1,4 +1,4 @@
-﻿using ImageTag.Train;
+﻿using ImageTag.ML;
 using Microsoft.ML;
 using System;
 using System.Collections.Generic;

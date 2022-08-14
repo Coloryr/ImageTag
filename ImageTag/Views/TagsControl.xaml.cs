@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using ImageTag.Sql;
-using ImageTag.Train;
+using ImageTag.ML;
 using ImageTag.Windows;
 using System;
 using System.Collections.Generic;

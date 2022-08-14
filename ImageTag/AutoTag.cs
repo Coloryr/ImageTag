@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Microsoft.ML;
 using Microsoft.ML.Data;
-using ImageTag.Train;
+using ImageTag.ML;
 using ImageTag.Windows;
 
 namespace ImageTag;

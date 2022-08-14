@@ -1,5 +1,5 @@
 ﻿using ImageTag.Sql;
-using ImageTag.Train;
+using ImageTag.ML;
 using System;
 using System.Collections.Generic;
 using System.Linq;

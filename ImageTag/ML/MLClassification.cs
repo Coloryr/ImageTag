@@ -14,7 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ImageTag.Train;
+namespace ImageTag.ML;
 
 public static class MLClassification
 {

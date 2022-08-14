@@ -1,5 +1,5 @@
 ﻿using ImageTag.Sql;
-using ImageTag.Train;
+using ImageTag.ML;
 using ImageTag.Views;
 using Microsoft.ML;
 using System;

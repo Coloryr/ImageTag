@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ImageTag.Train;
+namespace ImageTag.ML;
 
 public class InputData
 {
